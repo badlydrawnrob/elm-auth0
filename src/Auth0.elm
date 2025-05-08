@@ -216,11 +216,11 @@ getAuthedUserProfile :
 getAuthedUserProfile auth0Endpoint idToken pDecoder =
     Http.request
         { method = "POST"
-        , headers = []
-        , url = auth0Endpoint ++ "/tokeninfo"
+        , headers = [ Http.header "content-type" "application/json" ]
+        , url = auth0Endpoint ++ "/userinfo"
         , body =
             Http.jsonBody <|
-                Encode.object [ ( "id_token", Encode.string idToken ) ]
+                Encode.object [ ( "access_token", Encode.string idToken ) ]
         , expect = Http.expectJson GotProfile pDecoder
         , timeout = Nothing
         , tracker = Nothing
